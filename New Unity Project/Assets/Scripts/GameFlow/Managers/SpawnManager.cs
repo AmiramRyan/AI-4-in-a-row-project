@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     //This class will handel spawning of game pawns on the board
-    [Header("SpawnPoints")]
+    [Header("SpawnPoints")] //Point above each collumn to be used as spawning points to the new pawns
     [SerializeField] private Transform shadow1;
     [SerializeField] private Transform shadow2;
     [SerializeField] private Transform shadow3;
@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject pawnsParent;
 
     private GameManager gameManager;
-    private int choosenRow;
+    private int choosenRow; //the current row being inserted
 
     private void OnEnable()
     {
@@ -73,7 +73,8 @@ public class SpawnManager : MonoBehaviour
     private void SpawnAtTransform(Transform spawnHere , GameObject prefab) //Actual spawning proccese, called from SpawnPawnAt
     {
         Instantiate(prefab, spawnHere.position, Quaternion.identity).transform.SetParent(pawnsParent.transform); 
-    } 
+    }
+
 
     #region Get/Set
 

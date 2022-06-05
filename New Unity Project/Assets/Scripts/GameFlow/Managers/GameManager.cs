@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+
+public enum Winner{
+    player1,
+    COM,
+    noPlayer
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -17,8 +24,18 @@ public class GameManager : MonoBehaviour
     [Header("Turns Managment")]
     public bool playersTurn; //when false its the computer turn
 
+    [Header("UI panels")]
+    public GameObject EndGamePanel;
+    public TextMeshProUGUI winnerText; 
+
+    public Winner winner;
+    public static bool stopGame;
+
     private void Start()
     {
         playersTurn = true;
+        stopGame = false;
+        winner = Winner.noPlayer;
+        EndGamePanel.SetActive(false);
     }
 }

@@ -32,11 +32,14 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnMouseEnter() //when the mouse hovers above the spawn spot
     {
-        //if its the player turn
-        //if sprite not already active
-        if (!mySpriteRenderer.enabled) 
+        if (!GameManager.stopGame)
         {
-            mySpriteRenderer.enabled = true;
+            //if its the player turn
+            //if sprite not already active
+            if (!mySpriteRenderer.enabled)
+            {
+                mySpriteRenderer.enabled = true;
+            }
         }
     }
 
@@ -50,13 +53,16 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (ready) //make sure its not already clicked
+        if (!GameManager.stopGame)
         {
-            GameManager.NotReadySpawns?.Invoke();
-            gameManager.SpawnManager.SetColl(myColl);
-            //let the AI play
-            gameManager.playersTurn = false;
-            gameManager.computerAI.PlayTurn();
+            if (ready) //make sure its not already clicked
+            {
+                GameManager.NotReadySpawns?.Invoke();
+                gameManager.SpawnManager.SetColl(myColl);
+                //let the AI play
+                gameManager.playersTurn = false;
+                gameManager.computerAI.PlayTurn();
+            }
         }
     }
 
