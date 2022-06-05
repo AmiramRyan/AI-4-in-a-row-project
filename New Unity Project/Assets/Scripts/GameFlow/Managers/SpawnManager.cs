@@ -44,24 +44,59 @@ public class SpawnManager : MonoBehaviour
         switch (choosenRow)
         {
             case 0:
+                shadow1.GetComponent<SpawnPoint>().amountInColl++;
                 SpawnAtTransform(shadow1, pawnPrefab);
+                if (shadow1.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow1.gameObject.SetActive(false); //turn yourself off
+                }
                 break;
             case 1:
+                shadow2.GetComponent<SpawnPoint>().amountInColl++;
                 SpawnAtTransform(shadow2, pawnPrefab);
+                if (shadow2.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow2.gameObject.SetActive(false); //turn yourself off
+                }
                 break;
             case 2:
+                shadow3.GetComponent<SpawnPoint>().amountInColl++;
                 SpawnAtTransform(shadow3, pawnPrefab);
+                if (shadow3.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow3.gameObject.SetActive(false); //turn yourself off
+                }
                 break;
             case 3:
+                shadow4.GetComponent<SpawnPoint>().amountInColl++;
                 SpawnAtTransform(shadow4, pawnPrefab);
+                if (shadow4.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow4.gameObject.SetActive(false); //turn yourself off;
+                }
                 break;
             case 4:
+                shadow5.GetComponent<SpawnPoint>().amountInColl++;
+                if (shadow5.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow5.gameObject.SetActive(false); //turn yourself off
+                }
                 SpawnAtTransform(shadow5, pawnPrefab);
                 break;
             case 5:
+                shadow6.GetComponent<SpawnPoint>().amountInColl++;
+                if (shadow6.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow6.gameObject.SetActive(false); //turn yourself off
+                }
                 SpawnAtTransform(shadow6, pawnPrefab);
                 break;
             case 6:
+                shadow7.GetComponent<SpawnPoint>().amountInColl++;
+                if (shadow7.GetComponent<SpawnPoint>().amountInColl == 6)
+                {
+                    shadow7.gameObject.SetActive(false); //turn yourself off
+                }
                 SpawnAtTransform(shadow7, pawnPrefab);
                 break;
             default:
@@ -78,11 +113,25 @@ public class SpawnManager : MonoBehaviour
 
     #region Get/Set
 
-    public int GetColl() { return choosenRow; }
+    public int GetColl() 
+    { 
+        return choosenRow; 
+    }
     public void SetColl(int coll)
     {
         choosenRow = coll;
         SpawnPawnAt(gameManager.playersTurn); 
+    }
+
+    public void DisableShadows()
+    {
+        shadow1.gameObject.SetActive(false);
+        shadow2.gameObject.SetActive(false);
+        shadow3.gameObject.SetActive(false);
+        shadow4.gameObject.SetActive(false);
+        shadow5.gameObject.SetActive(false);
+        shadow6.gameObject.SetActive(false);
+        shadow7.gameObject.SetActive(false);
     }
 
     #endregion

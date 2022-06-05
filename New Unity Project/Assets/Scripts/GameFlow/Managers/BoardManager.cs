@@ -93,7 +93,7 @@ public class BoardManager : MonoBehaviour
         //Check Vertical
         for (int coll = 0; coll < 7; coll++) 
         {
-            for (int row = 0; row < 4; row++)
+            for (int row = 0; row < 3; row++)
             {
                 if(physicalBoard[coll,row] == 0) // no need to keep checking this path
                 {
@@ -173,6 +173,7 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+
         return;
     }
 
@@ -283,8 +284,10 @@ public class BoardManager : MonoBehaviour
         }
         gameManager.EndGamePanel.SetActive(true);
         gameManager.winnerText.text = "Winner is: " + winner;
+        gameManager.SpawnManager.DisableShadows();
         GameManager.stopGame = true; //stop all interactions 
     }
+
     #endregion
 
 

@@ -10,6 +10,7 @@ public class SpawnPoint : MonoBehaviour
     private SpriteRenderer mySpriteRenderer;
     [SerializeField] private bool ready;
     [SerializeField] private int myColl;
+    public int amountInColl;
 
     private void OnEnable()
     {
@@ -27,7 +28,9 @@ public class SpawnPoint : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<GameManager>();
         mySpriteRenderer = this.GetComponent<SpriteRenderer>();
+        mySpriteRenderer.color = new Color(mySpriteRenderer.color.r, mySpriteRenderer.color.g, mySpriteRenderer.color.b, 0.3f);
         ready = true;
+        amountInColl = 0;
     }
 
     private void OnMouseEnter() //when the mouse hovers above the spawn spot
@@ -35,20 +38,13 @@ public class SpawnPoint : MonoBehaviour
         if (!GameManager.stopGame)
         {
             //if its the player turn
-            //if sprite not already active
-            if (!mySpriteRenderer.enabled)
-            {
-                mySpriteRenderer.enabled = true;
-            }
+            mySpriteRenderer.color = new Color(mySpriteRenderer.color.r, mySpriteRenderer.color.g, mySpriteRenderer.color.b, 1);
         }
     }
 
     private void OnMouseExit()
     {
-        if (mySpriteRenderer.enabled)
-        {
-            mySpriteRenderer.enabled = false;
-        }
+        mySpriteRenderer.color = new Color(mySpriteRenderer.color.r, mySpriteRenderer.color.g, mySpriteRenderer.color.b, 0.3f);
     }
 
     private void OnMouseDown()
