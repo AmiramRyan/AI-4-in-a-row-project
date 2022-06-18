@@ -6,11 +6,13 @@ public class GameState
     private readonly int M_ROW_SIZE = 6;
 
     private int[,] m_gameBoard;
+    private int m_currentIndex = 0;
     private int m_huyristicValue = -1;
 
-    public GameState(int[,] i_gameBoard)
+    public GameState(int[,] i_gameBoard, int i_currentIndex)
     {
         m_gameBoard = i_gameBoard;
+        m_currentIndex = i_currentIndex;
     }
 
     public int[,] getGameBoard()
@@ -41,6 +43,6 @@ public class GameState
 
     public void calcHuyristicValue()
     {
-        m_huyristicValue = Huyristic.Evaluation(m_gameBoard);
+        m_huyristicValue = Huyristic.Evaluation(m_gameBoard, m_currentIndex);
     }
 }

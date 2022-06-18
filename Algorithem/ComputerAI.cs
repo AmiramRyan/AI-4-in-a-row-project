@@ -103,19 +103,12 @@ public class ComputerAI : MonoBehaviour
     }
 
     // creating by even or odd - temp
-    private GameState createGameState(int[,] i_gameBoard, int i_n)
+    private GameState createGameState(int[,] i_gameBoard, int i_colIndex)
     {
-        GameState gameState = new GameState(i_gameBoard);
+        GameState gameState = new GameState(i_gameBoard, i_currentIndex);
 
-        if(i_n % 2 == 0) // for player, otherwise for Bot
-        {
-            gameState.setGameBoardByIndexCol(i_n, 1);
-        }
-        else
-        {
-            gameState.setGameBoardByIndexCol(i_n, 2);
-        }
-        gameState.calcHuyristicValue();
+
+
 
         return gameState;
     }
