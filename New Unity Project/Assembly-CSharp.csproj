@@ -58,6 +58,9 @@
     <Compile Include="Assets\Scripts\GameFlow\SpawnPoint.cs" />
     <Compile Include="Assets\Scripts\GameFlow\Managers\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\GameFlow\Managers\BoardManager.cs" />
+    <Compile Include="Assets\Scripts\Algorithem\Huyristic.cs" />
+    <Compile Include="Assets\Scripts\Algorithem\Node.cs" />
+    <Compile Include="Assets\Scripts\Algorithem\GameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

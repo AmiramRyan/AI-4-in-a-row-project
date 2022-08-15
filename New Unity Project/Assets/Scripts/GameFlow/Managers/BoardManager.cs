@@ -56,11 +56,11 @@ public class BoardManager : MonoBehaviour
         {
             gameBoard[coll, rowToSpawnIn] = 2;
         }
-        PrintArr();
-        IsWinnerDesided(gameBoard);
+        //PrintArr();
+        IsWinnerDesided(gameBoard , false);
     }
 
-    private int GetNextAvailableRow(int coll)
+    public int GetNextAvailableRow(int coll)
     {
         for (int i = 0; i < 6; i++)
         {
@@ -73,7 +73,7 @@ public class BoardManager : MonoBehaviour
         return 999;
     }
 
-    private void PrintArr() //For Debuging
+    public void PrintArr() //For Debuging
     {
         for (int i = 5; i >= 0; i--)
         {
@@ -88,7 +88,7 @@ public class BoardManager : MonoBehaviour
     }
 
     #region Winner Checkers 
-    public void IsWinnerDesided(int[,] physicalBoard)
+    public void IsWinnerDesided(int[,] physicalBoard, bool isVirtual)
     {
         //Check Vertical
         for (int coll = 0; coll < 7; coll++) 
@@ -102,8 +102,15 @@ public class BoardManager : MonoBehaviour
                 Winner winner = CheckWinnerVerticly(coll, row, physicalBoard);
                 if (winner != Winner.noPlayer)
                 {
-                    TriggerEndGame(winner);
-                    return;
+                    if(!isVirtual) 
+                    {
+                        TriggerEndGame(winner);
+                        return;
+                    }
+                    else
+                    { //only a projection (didnt happen InGame yet)
+                        Debug.Log("Virual Win" + winner);
+                    }
                 }
             }
             
@@ -123,8 +130,15 @@ public class BoardManager : MonoBehaviour
                     Winner winner = CheckWinnerHorizontaly(coll, row, physicalBoard);
                     if (winner != Winner.noPlayer)
                     {
-                        TriggerEndGame(winner);
-                        return;
+                        if(!isVirtual) 
+                        {
+                            TriggerEndGame(winner);
+                            return;
+                        }
+                        else
+                        { //only a projection (didnt happen InGame yet)
+                            Debug.Log("Virual Win" + winner);
+                        }
                     }
                 }
             }
@@ -145,8 +159,15 @@ public class BoardManager : MonoBehaviour
                     Winner winner = CheckWinnerDiagonalLR(coll, row, physicalBoard);
                     if (winner != Winner.noPlayer)
                     {
-                        TriggerEndGame(winner);
-                        return;
+                        if(!isVirtual) 
+                        {
+                            TriggerEndGame(winner);
+                            return;
+                        }
+                        else
+                        { //only a projection (didnt happen InGame yet)
+                            Debug.Log("Virual Win" + winner);
+                        }
                     }
                 }
             }
@@ -167,8 +188,15 @@ public class BoardManager : MonoBehaviour
                     Winner winner = CheckWinnerDiagonalRL(coll, row, physicalBoard);
                     if (winner != Winner.noPlayer)
                     {
-                        TriggerEndGame(winner);
-                        return;
+                        if(!isVirtual) 
+                        {
+                            TriggerEndGame(winner);
+                            return;
+                        }
+                        else
+                        { //only a projection (didnt happen InGame yet)
+                            Debug.Log("Virual Win" + winner);
+                        }
                     }
                 }
             }
