@@ -27,6 +27,7 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
@@ -83,15 +84,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2768}
     - Class: 114
-      Script: {instanceID: 2936}
+      Script: {instanceID: 2850}
     - Class: 114
-      Script: {instanceID: 3782}
+      Script: {instanceID: 2938}
     - Class: 114
-      Script: {instanceID: 3922}
+      Script: {instanceID: 3786}
     - Class: 114
-      Script: {instanceID: 4046}
+      Script: {instanceID: 3926}
     - Class: 114
-      Script: {instanceID: 4186}
+      Script: {instanceID: 4050}
+    - Class: 114
+      Script: {instanceID: 4190}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -179,7 +182,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: 0430a911af74b41a69bbb86d8cef6a2d
+      Hash: 397ee774135b3fc071826adedc52512e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -564,4 +567,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/scene.unity
-  playerPath: F:/4inRow/BuildV2/New Unity Project.exe
+  playerPath: F:/4inRow/BuildV3/Connect4.exe

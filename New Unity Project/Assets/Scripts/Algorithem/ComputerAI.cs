@@ -68,31 +68,10 @@ public class ComputerAI : MonoBehaviour
         GameManager.ReadyUpSpawns?.Invoke();
     }
 
-    /*private void createTree(int[,] i_gameBoard, Node i_node, int i_n) //i_n is what type of pawn we are putting in  1/2
-    {
-        if (i_n == 1)
-            return;
-        
-
-        for (int i = 0; i < 2; i++) // deep x2
-        {
-            for (int j = 0; j < 7; j++) // for each node
-            {
-
-
-                i_node.setNode(createGameState(i_gameBoard, j));
-
-
-                createTree(i_gameBoard, i_node.getChildByIndex(j), i_n - 1);
-            }
-        }
-        return;
-    }*/
-
     private Node createTree(int[,] original_gBoard) //Projected moves tree
     {
         //initialize
-        GameState current = new GameState(original_gBoard, 0);
+        GameState current = new GameState(original_gBoard, 0, 0 ,0);
         Node projectedR = new Node(current); //tree ill be stored here
         
         
@@ -101,18 +80,54 @@ public class ComputerAI : MonoBehaviour
             //Virtualy insert pawn in coll i
             int[,] original_gameBoard = new int[7,6];
             original_gameBoard = Copy2dArr(original_gameBoard, original_gBoard);
-            Debug.Log("----Parent " + i + " ----");
+            //Debug.Log("----Parent " + i + " ----");
             int[,] temp = new int[7,6];
             temp = setGameBoardByIndexCol(i, 2, original_gameBoard);
-           
+            //Find the row
+            int currRow = 0;
+            for (int j = 5; j >= 0; j--)
+            {
+                if(temp[i,j] == 2){
+                    currRow = j;
+                    break;
+                }
+            }
+
             //initialize node with parent board
-            GameState parentGameState = new GameState(temp,i);
+            GameState parentGameState = new GameState(temp,i, currRow , 2);
             Node parentNode = new Node(parentGameState);
             //Applying huristic value to base case (winner is desied with current move)
             parentNode.getGameState().calcHuyristicValue();
-            PrintGameState(parentGameState);
+            //PrintGameState(parentGameState);
             //connect to parent node
             projectedR.setNode(parentNode);
+            for (int j = 0; j < 7; j++)//Create child nodes
+            {
+                 int[,] child_gameBoard = new int[7,6];
+                 child_gameBoard = Copy2dArr(child_gameBoard, parentNode.getGameState().getGameBoard());
+                 //Debug.Log("------Child " + j + " Of Parent " + i + " ------");
+                 int[,] tempC = new int[7,6];
+                 tempC = setGameBoardByIndexCol(j, 1, child_gameBoard);
+                 int currRowC = 0;
+                for (int row = 5; row >= 0; row--)
+                {
+                    if(tempC[j,row] == 1){
+                        currRowC = row;
+                        break;
+                    }
+                }
+                //initialize node with parent board
+                GameState childGameState = new GameState(tempC,j, currRowC , 1);
+                Node childNode = new Node(childGameState);
+                //Change parent Huyristic value if that move can lead to a player win
+                childNode.getGameState().calcHuyristicValue();
+                //PrintGameState(childGameState);
+                //connect to parent node
+                parentNode.setNode(childNode);
+                if(childNode.getGameState().getHuyristicValue() >= 4 & parentNode.getGameState().getHuyristicValue() != 4){ //Player win on next move and COM dosent
+                    parentNode.getGameState().setHuyristicValue(-995); //Innsures the move that leads to player win wont be made (Blocking is a side effect here)
+                }
+            }
         }
 
         return projectedR;
@@ -182,44 +197,69 @@ public class ComputerAI : MonoBehaviour
     //Desied where to play
     public int CreateAndPrintTrees()
     {
-        GameState temp = new GameState(gameManager.boardManager.gameBoard,0);
+        GameState temp = new GameState(gameManager.boardManager.gameBoard,0 ,0 ,0);
         Node root = new Node(temp);
-        Node projectedRoot = createTree(root.getGameState().getGameBoard());
+        Node projectedRoot = createTree(root.getGameState().getGameBoard()); //Create the tree
 
         //explore the child nodes and return the index of the best value
         int collToPlay = PickRandomColl();
         int curr_best_h_value = 999;
-        for (int i = 0; i < 7; i++)
+        int[,] potentialMoves = new int[7,1];
+        //Register Huyristic results
+        for (int i = 0; i < 7; i++) //Which coll is better to play?
         {
             GameState projectedState = projectedRoot.getChildByIndex(i).getGameState();
-            if(!projectedState.blocked)
-            {
-                int n_h_value = projectedState.getHuyristicValue();
-                if((4 - n_h_value) == 0)//winning move
-                {
-                    curr_best_h_value = n_h_value;
-                    collToPlay = projectedState.getIndex();
-                    break;
-                }
-                
-                else if((4 - n_h_value) < curr_best_h_value)
-                {
-                    if((4 - n_h_value) == 3) //trivial result
-                    {
-                        collToPlay = PickRandomColl();
-                    }
-                    if(gameManager.boardManager.GetNextAvailableRow(collToPlay) != 999) //if coll is full skip this check
-                    {
-                        curr_best_h_value = (4 - n_h_value);
-                        collToPlay = projectedState.getIndex();
-                    }
-                }
+            int n_h_value = projectedState.getHuyristicValue();
+            potentialMoves[i,0] = 4 - n_h_value; //(where to play, h_value of that play)
+            if(potentialMoves[i,0] == 0){ //COM WIN no need to check 
+                return i;
             }
+        }
+
+        //Get choosen Coll to play by choosing best Huyristic value
+        int tempColl = 0;
+        if(curr_best_h_value > potentialMoves[3,0])
+        {
+            collToPlay = 3;
+            curr_best_h_value = potentialMoves[3,0];
+        }
+
+        tempColl = Compare2CollHu(2,4,potentialMoves);
+        if(curr_best_h_value > potentialMoves[tempColl,0])
+        {
+            collToPlay =  tempColl;
+            curr_best_h_value = potentialMoves[tempColl,0];
+        }
+
+        tempColl = Compare2CollHu(1,5,potentialMoves);
+        if(curr_best_h_value > potentialMoves[tempColl,0])
+        {
+            collToPlay =  tempColl;
+            curr_best_h_value = potentialMoves[tempColl,0];
+        }
+
+        tempColl = Compare2CollHu(0,6,potentialMoves);
+        if(curr_best_h_value > potentialMoves[tempColl,0])
+        {
+            collToPlay =  tempColl;
+            curr_best_h_value = potentialMoves[tempColl,0];
         }
 
         //print results
         Debug.Log("Choose to play: " + collToPlay + " For H Value of: " + curr_best_h_value);
         return collToPlay; 
     }
-
+    
+    private int Compare2CollHu(int coll1, int coll2 , int[,] potentialMoves)
+    {
+        int val1 =  potentialMoves[coll1,0];
+        int val2 =  potentialMoves[coll2,0];
+        if(val1 > val2){
+            return coll2;
+        }
+        else{
+            return coll1;
+        }
+        
+    }
 }

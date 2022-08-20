@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public enum Winner{
     player1,
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     [Header("UI panels")]
     public GameObject EndGamePanel;
     public TextMeshProUGUI winnerText; 
+    public GameObject restartBtn;
 
     public Winner winner;
     public static bool stopGame;
@@ -37,5 +39,14 @@ public class GameManager : MonoBehaviour
         stopGame = false;
         winner = Winner.noPlayer;
         EndGamePanel.SetActive(false);
+        restartBtn.SetActive(false);
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene(0);
+    }
+
+    public void exit(){
+        Application.Quit();
     }
 }

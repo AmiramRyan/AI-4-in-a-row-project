@@ -166,7 +166,7 @@ public class BoardManager : MonoBehaviour
                         }
                         else
                         { //only a projection (didnt happen InGame yet)
-                            Debug.Log("Virual Win" + winner);
+                            //Debug.Log("Virual Win" + winner);
                         }
                     }
                 }
@@ -195,7 +195,7 @@ public class BoardManager : MonoBehaviour
                         }
                         else
                         { //only a projection (didnt happen InGame yet)
-                            Debug.Log("Virual Win" + winner);
+                            //Debug.Log("Virual Win" + winner);
                         }
                     }
                 }
@@ -311,6 +311,7 @@ public class BoardManager : MonoBehaviour
             Debug.Log("COM Wins!!!");
         }
         gameManager.EndGamePanel.SetActive(true);
+        gameManager.restartBtn.SetActive(true);
         gameManager.winnerText.text = "Winner is: " + winner;
         gameManager.SpawnManager.DisableShadows();
         GameManager.stopGame = true; //stop all interactions 
